@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SacramentMeetingPlanner", "SacramentMeetingPlanner\SacramentMeetingPlanner.csproj", "{AB05030C-8C29-4811-9D1A-9B32A9453206}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB05030C-8C29-4811-9D1A-9B32A9453206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB05030C-8C29-4811-9D1A-9B32A9453206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB05030C-8C29-4811-9D1A-9B32A9453206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB05030C-8C29-4811-9D1A-9B32A9453206}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0363D69D-F319-4EE2-BD99-01500285D42B}
+	EndGlobalSection
+EndGlobal
