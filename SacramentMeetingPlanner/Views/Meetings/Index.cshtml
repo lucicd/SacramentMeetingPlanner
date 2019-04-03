@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SacramentMeetingPlanner.Models.Meeting>
+﻿@model PaginatedList<SacramentMeetingPlanner.Models.Meeting>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,69 +9,103 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.MeetingDate)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]">Meeting Date</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Conducting)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]">Conducting</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Invocation)
+                Invocation
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OpeningSong)
+                Opening Song
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SacramentSong)
+                Sacrament Song
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IntermediateSong)
+                Intermediate Song
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClosingSong)
+                Closing Song
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Benediction)
+                Benediction
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MeetingDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Conducting)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Invocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpeningSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SacramentSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IntermediateSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClosingSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Benediction)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeetingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Conducting)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Invocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SacramentSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IntermediateSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosingSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Benediction)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

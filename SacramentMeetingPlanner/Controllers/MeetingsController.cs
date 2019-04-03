@@ -20,9 +20,52 @@ namespace SacramentMeetingPlanner.Controllers
         }
 
         // GET: Meetings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            return View(await _context.Meetings.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            ViewData["NameSortParm"] = sortOrder == "Name" ? "name_desc" : "Name";
+            
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var meetings = from s in _context.Meetings
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                meetings = meetings.Where(s => s.Conducting.Contains(searchString)
+                                       || s.Invocation.Contains(searchString)
+                                       || s.OpeningSong.Contains(searchString)
+                                       || s.IntermediateSong.Contains(searchString)
+                                       || s.ClosingSong.Contains(searchString)
+                                       || s.Benediction.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "date_desc":
+                    meetings = meetings.OrderByDescending(s => s.MeetingDate);
+                    break;
+                case "Name":
+                    meetings = meetings.OrderBy(s => s.Conducting);
+                    break;
+                case "name_desc":
+                    meetings = meetings.OrderByDescending(s => s.Conducting);
+                    break;
+                default:
+                    meetings = meetings.OrderBy(s => s.MeetingDate);
+                    break;
+            }
+
+            int pageSize = 5;
+            return View(await PaginatedList<Meeting>.CreateAsync(meetings.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Meetings/Details/5
