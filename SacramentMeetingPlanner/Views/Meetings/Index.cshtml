@@ -1,10 +1,10 @@
-﻿@model PaginatedList<SacramentMeetingPlanner.Models.Meeting>
+﻿@model SacramentMeetingPlanner.Models.MeetingViewModels.MeetingIndexData;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sacrament Meetings";
 }
 
-<h1>Index</h1>
+<h1>Sacrament Meetings</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -20,7 +20,7 @@
     </div>
 </form>
 
-<table class="table">
+<table class="table table-sm">
     <thead>
         <tr>
             <th>
@@ -49,62 +49,79 @@
             <th>
                 Benediction
             </th>
+            <th>
+                Speakers
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Meetings)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MeetingDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Conducting)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Invocation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OpeningSong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SacramentSong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IntermediateSong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClosingSong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Benediction)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
-            </tr>
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["MeetingID"])
+            {
+                selectedRow = "table-success";
+            }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conducting)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Invocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpeningSong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SacramentSong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IntermediateSong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosingSong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Benediction)
+            </td>
+            <td>
+                @{
+                    foreach (var speaker in item.Speakers)
+                    {
+                        @speaker.SpeakerName @:  @speaker.Subject <br />
+                    }
+                }
+            </td>
+            <td>
+                <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.Meetings.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Meetings.HasNextPage ? "disabled" : "";
 }
 
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-pageNumber="@(Model.Meetings.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-pageNumber="@(Model.Meetings.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @nextDisabled">
     Next

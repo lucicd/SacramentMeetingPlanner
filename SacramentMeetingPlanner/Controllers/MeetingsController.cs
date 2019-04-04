@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SacramentMeetingPlanner.Data;
 using SacramentMeetingPlanner.Models;
+using SacramentMeetingPlanner.Models.MeetingViewModels;
 
 namespace SacramentMeetingPlanner.Controllers
 {
@@ -20,7 +21,7 @@ namespace SacramentMeetingPlanner.Controllers
         }
 
         // GET: Meetings
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber, int? id)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
@@ -65,7 +66,18 @@ namespace SacramentMeetingPlanner.Controllers
             }
 
             int pageSize = 5;
-            return View(await PaginatedList<Meeting>.CreateAsync(meetings.AsNoTracking(), pageNumber ?? 1, pageSize));
+            var viewModel = new MeetingIndexData();
+            viewModel.Meetings = await PaginatedList<Meeting>.CreateAsync(meetings
+                .Include(i => i.Speakers).AsNoTracking(), pageNumber ?? 1, pageSize);
+
+            if (id != null)
+            {
+                ViewData["MeetingID"] = id.Value;
+                Meeting meeting = meetings.Where(i => i.ID == id.Value).Single();
+                viewModel.Speakers = meeting.Speakers;
+            }
+
+            return View(viewModel);
         }
 
         // GET: Meetings/Details/5
