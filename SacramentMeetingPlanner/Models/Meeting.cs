@@ -24,6 +24,7 @@ namespace SacramentMeetingPlanner.Models
 
         [Required]
         [StringLength(255, MinimumLength = 2)]
+        [Display(Name = "Opening Song")]
         public string OpeningSong { get; set; }
 
         [Required]

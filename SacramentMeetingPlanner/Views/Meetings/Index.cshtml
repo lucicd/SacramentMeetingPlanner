@@ -4,23 +4,23 @@
     ViewData["Title"] = "Sacrament Meetings";
 }
 
-<h1>Sacrament Meetings</h1>
+<h2>Sacrament Meetings</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-danger" asp-action="Create">Create New</a>
 </p>
 
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
             Find: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
+            <input type="submit" value="Search" class="btn btn-sm btn-default" />
+            <a class="btn btn-sm btn-info" asp-action="Index">Back to Full List</a>
         </p>
     </div>
 </form>
 
-<table class="table table-sm">
+<table class="table table-hover table-sm">
     <thead>
         <tr>
             <th>
@@ -35,22 +35,10 @@
                 Invocation
             </th>
             <th>
-                Opening Song
-            </th>
-            <th>
-                Sacrament Song
-            </th>
-            <th>
-                Intermediate Song
-            </th>
-            <th>
-                Closing Song
+                Songs
             </th>
             <th>
                 Benediction
-            </th>
-            <th>
-                Speakers
             </th>
             <th></th>
         </tr>
@@ -65,7 +53,9 @@
             }
             <tr class="@selectedRow">
                 <td>
-                    @Html.DisplayFor(modelItem => item.MeetingDate)
+                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.ID">
+                        @Html.DisplayFor(modelItem => item.MeetingDate)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Conducting)
@@ -74,40 +64,36 @@
                     @Html.DisplayFor(modelItem => item.Invocation)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OpeningSong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SacramentSong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IntermediateSong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClosingSong)
+                    <dl class="row">
+                        <dt class="col-sm-3">Opening:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(modelItem => item.OpeningSong)</dd>
+                        <dt class="col-sm-3">Sacrament: </dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(modelItem => item.SacramentSong)</dd>
+                        @if (item.IntermediateSong != null && item.IntermediateSong.Length > 0)
+                        {
+                            <dt class="col-sm-3">Intermediate:</dt>
+                            <dd class="col-sm-9">@Html.DisplayFor(modelItem => item.IntermediateSong)</dd>
+                        }
+                        <dt class="col-sm-3">Closing: </dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(modelItem => item.ClosingSong)</dd>
+                    </dl>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Benediction)
                 </td>
-                <td>
+                <td class="text-center">
                     @{
-                        var numSpeakers = "none";
-                        var count = item.Speakers.Count();
-                        if (count == 1)
-                        {
-                            numSpeakers = "1 speaker";
-                        }
-                        else if (count > 1)
-                        {
-                            numSpeakers = count.ToString() + " speakers";
-                        }
+                        var numSpeakers = item.Speakers.Count().ToString();
                     }
-                    <a asp-controller="Speakers" asp-action="Index" asp-route-meetingId="@item.ID">@numSpeakers</a>
-                </td>
-                <td>
-                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    <div class="col-sm-12">
+                        <a class="btn btn-sm btn-success btn-block w-100" asp-controller="Speakers" asp-action="Index" asp-route-meetingId="@item.ID">
+                            Speakers
+                            <span class="badge badge-light">@numSpeakers</span>
+                        </a>
+                        <a class="btn btn-sm btn-primary btn-block w-100" asp-action="Index" asp-route-id="@item.ID">Select</a>
+                        <a class="btn btn-sm btn-primary btn-block w-100" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                        <a class="btn btn-sm btn-warning btn-block w-100" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </div>
                 </td>
             </tr>
         }
@@ -120,22 +106,25 @@
 }
 
 <a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.Meetings.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @prevDisabled">
+    asp-route-sortOrder="@ViewData["CurrentSort"]"
+    asp-route-pageNumber="@(Model.Meetings.PageIndex - 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-sm btn-dark @prevDisabled">
     Previous
 </a>
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.Meetings.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @nextDisabled">
+<a 
+    asp-action="Index"
+    asp-route-sortOrder="@ViewData["CurrentSort"]"
+    asp-route-pageNumber="@(Model.Meetings.PageIndex + 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-sm btn-dark @nextDisabled">
     Next
 </a>
 
 @if (Model.Speakers != null)
 {
+<div>
+    <hr />
     <h3>Speakers for the Selected Meeting</h3>
     <table class="table table-sm">
         <tr>
@@ -164,4 +153,5 @@
         }
 
     </table>
+</div>
 }

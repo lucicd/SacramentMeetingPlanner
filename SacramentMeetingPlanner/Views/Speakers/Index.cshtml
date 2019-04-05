@@ -7,7 +7,7 @@
 <h1>Speakers</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-meetingId="@ViewBag.MeetingID">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -57,3 +57,5 @@
 }
     </tbody>
 </table>
+
+<a asp-controller="Meetings" asp-action="Index">Back to Meetings</a>

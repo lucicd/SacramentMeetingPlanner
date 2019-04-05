@@ -26,7 +26,11 @@ namespace SacramentMeetingPlanner.Controllers
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber, int? id)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            if (String.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "date_desc";
+            }
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["NameSortParm"] = sortOrder == "Name" ? "name_desc" : "Name";
             
             if (searchString != null)
@@ -67,7 +71,7 @@ namespace SacramentMeetingPlanner.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 3;
             var viewModel = new MeetingIndexData();
             viewModel.Meetings = await PaginatedList<Meeting>.CreateAsync(meetings
                 .Include(i => i.Speakers).AsNoTracking(), pageNumber ?? 1, pageSize);

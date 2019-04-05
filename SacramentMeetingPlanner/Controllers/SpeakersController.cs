@@ -25,7 +25,8 @@ namespace SacramentMeetingPlanner.Controllers
         public async Task<IActionResult> Index(int meetingId)
         {
             var sacramentMeetingPlannerContext = _context.Speakers.Include(s => s.Meeting)
-                .Where(m => m.MeetingID == meetingId);
+                .Where(m => m.MeetingID == meetingId).OrderBy(m => m.Block).ThenBy(m => m.Order);
+            ViewData["MeetingID"] = meetingId;
             return View(await sacramentMeetingPlannerContext.ToListAsync());
         }
 
@@ -49,9 +50,10 @@ namespace SacramentMeetingPlanner.Controllers
         }
 
         // GET: Speakers/Create
-        public IActionResult Create()
+        public IActionResult Create(int? meetingId)
         {
-            ViewData["MeetingID"] = new SelectList(_context.Meetings, "ID", "Benediction");
+
+            ViewData["MeetingID"] = meetingId ?? throw new Exception("MeetingID is not passed to the controller.");
             return View();
         }
 
@@ -66,9 +68,9 @@ namespace SacramentMeetingPlanner.Controllers
             {
                 _context.Add(speaker);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { meetingId = speaker.MeetingID});
             }
-            ViewData["MeetingID"] = new SelectList(_context.Meetings, "ID", "Benediction", speaker.MeetingID);
+            ViewData["MeetingID"] = speaker.MeetingID;
             return View(speaker);
         }
 
@@ -85,7 +87,7 @@ namespace SacramentMeetingPlanner.Controllers
             {
                 return NotFound();
             }
-            ViewData["MeetingID"] = new SelectList(_context.Meetings, "ID", "Benediction", speaker.MeetingID);
+            ViewData["MeetingID"] = speaker.MeetingID;
             return View(speaker);
         }
 
@@ -119,9 +121,9 @@ namespace SacramentMeetingPlanner.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { meetingId = speaker.MeetingID });
             }
-            ViewData["MeetingID"] = new SelectList(_context.Meetings, "ID", "Benediction", speaker.MeetingID);
+            ViewData["MeetingID"] = speaker.MeetingID;
             return View(speaker);
         }
 
@@ -152,7 +154,7 @@ namespace SacramentMeetingPlanner.Controllers
             var speaker = await _context.Speakers.FindAsync(id);
             _context.Speakers.Remove(speaker);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { meetingId = speaker.MeetingID });
         }
 
         private bool SpeakerExists(int id)
