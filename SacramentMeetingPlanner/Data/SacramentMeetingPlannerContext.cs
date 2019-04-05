@@ -1,9 +1,10 @@
 ﻿using SacramentMeetingPlanner.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace SacramentMeetingPlanner.Data
 {
-    public class SacramentMeetingPlannerContext : DbContext
+    public class SacramentMeetingPlannerContext : IdentityDbContext
     {
         public SacramentMeetingPlannerContext(DbContextOptions<SacramentMeetingPlannerContext> options) : base(options)
         {
@@ -15,6 +16,8 @@ namespace SacramentMeetingPlanner.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Meeting>().ToTable("Meeting");
             modelBuilder.Entity<Speaker>().ToTable("Speaker");
             modelBuilder.Entity<Setting>().ToTable("Setting");

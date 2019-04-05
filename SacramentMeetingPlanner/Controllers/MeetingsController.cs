@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using SacramentMeetingPlanner.Models.MeetingViewModels;
 
 namespace SacramentMeetingPlanner.Controllers
 {
+    [Authorize]
     public class MeetingsController : Controller
     {
         private readonly SacramentMeetingPlannerContext _context;
@@ -141,11 +143,16 @@ namespace SacramentMeetingPlanner.Controllers
                 return NotFound();
             }
 
-            var meeting = await _context.Meetings.FindAsync(id);
+            var meeting = await _context.Meetings
+                .Include(s => s.Speakers)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (meeting == null)
             {
                 return NotFound();
             }
+
             return View(meeting);
         }
 
@@ -161,7 +168,7 @@ namespace SacramentMeetingPlanner.Controllers
                 return NotFound();
             }
             var meetingToUpdate = await _context.Meetings.FirstOrDefaultAsync(s => s.ID == id);
-            if (await TryUpdateModelAsync<Meeting>(
+            if (await TryUpdateModelAsync<Meeting> (
                 meetingToUpdate,
                 "",
                 s => s.MeetingDate, 
@@ -173,21 +180,21 @@ namespace SacramentMeetingPlanner.Controllers
                 s => s.ClosingSong,
                 s => s.Benediction
                 ))
-                    {
-                        try
-                        {
-                            await _context.SaveChangesAsync();
-                            return RedirectToAction(nameof(Index));
-                        }
-                        catch (DbUpdateException)
-                        {
-                            ModelState.AddModelError("", "Unable to save changes. " +
-                                "Try again, and if the problem persists, " +
-                                "see your system administrator.");
-                        }
-                    }
-                    return View(meetingToUpdate);
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+            }
+            return View(meetingToUpdate);
+        }
 
         // GET: Meetings/Delete/5
         public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)

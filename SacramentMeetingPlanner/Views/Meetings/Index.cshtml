@@ -49,6 +49,9 @@
             <th>
                 Benediction
             </th>
+            <th>
+                Speakers
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -84,6 +87,21 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Benediction)
+                </td>
+                <td>
+                    @{
+                        var numSpeakers = "none";
+                        var count = item.Speakers.Count();
+                        if (count == 1)
+                        {
+                            numSpeakers = "1 speaker";
+                        }
+                        else if (count > 1)
+                        {
+                            numSpeakers = count.ToString() + " speakers";
+                        }
+                    }
+                    <a asp-controller="Speakers" asp-action="Index" asp-route-meetingId="@item.ID">@numSpeakers</a>
                 </td>
                 <td>
                     <a asp-action="Index" asp-route-id="@item.ID">Select</a> |

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SacramentMeetingPlanner.Models;
 
 namespace SacramentMeetingPlanner.Controllers
 {
+    [Authorize]
     public class SpeakersController : Controller
     {
         private readonly SacramentMeetingPlannerContext _context;
@@ -20,9 +22,10 @@ namespace SacramentMeetingPlanner.Controllers
         }
 
         // GET: Speakers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int meetingId)
         {
-            var sacramentMeetingPlannerContext = _context.Speakers.Include(s => s.Meeting);
+            var sacramentMeetingPlannerContext = _context.Speakers.Include(s => s.Meeting)
+                .Where(m => m.MeetingID == meetingId);
             return View(await sacramentMeetingPlannerContext.ToListAsync());
         }
 
