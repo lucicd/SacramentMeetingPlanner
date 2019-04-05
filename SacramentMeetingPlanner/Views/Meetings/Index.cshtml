@@ -25,7 +25,7 @@
         <tr>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]"
-                   asp-route-currentFilter="@ViewData["CurrentFilter"]">Meeting Date</a>
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]">Meeting&nbsp;Date</a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]"
@@ -49,9 +49,6 @@
             <th>
                 Benediction
             </th>
-            <th>
-                Speakers
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -63,46 +60,38 @@
             {
                 selectedRow = "table-success";
             }
-        <tr class="@selectedRow">
-            <td>
-                @Html.DisplayFor(modelItem => item.MeetingDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Conducting)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Invocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpeningSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SacramentSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IntermediateSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClosingSong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Benediction)
-            </td>
-            <td>
-                @{
-                    foreach (var speaker in item.Speakers)
-                    {
-                        @speaker.SpeakerName @:  @speaker.Subject <br />
-                    }
-                }
-            </td>
-            <td>
-                <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeetingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Conducting)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Invocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SacramentSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IntermediateSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosingSong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Benediction)
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -126,3 +115,35 @@
    class="btn btn-default @nextDisabled">
     Next
 </a>
+
+@if (Model.Speakers != null)
+{
+    <h3>Speakers for the Selected Meeting</h3>
+    <table class="table table-sm">
+        <tr>
+            <th>Name</th>
+            <th>Subject</th>
+            <th>Block</th>
+            <th>Order</th>
+        </tr>
+
+        @foreach (var item in Model.Speakers)
+        {
+            <tr>
+                <td>
+                    @item.SpeakerName
+                </td>
+                <td>
+                    @item.Subject
+                </td>
+                <td>
+                    @item.Block
+                </td>
+                <td>
+                    @item.Order
+                </td>
+            </tr>
+        }
+
+    </table>
+}

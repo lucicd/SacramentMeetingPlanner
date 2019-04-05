@@ -73,7 +73,7 @@ namespace SacramentMeetingPlanner.Controllers
             if (id != null)
             {
                 ViewData["MeetingID"] = id.Value;
-                Meeting meeting = meetings.Where(i => i.ID == id.Value).Single();
+                Meeting meeting = viewModel.Meetings.Where(i => i.ID == id.Value).Single();
                 viewModel.Speakers = meeting.Speakers;
             }
 
