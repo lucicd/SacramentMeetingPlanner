@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<SacramentMeetingPlanner.Models.Setting>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Settings";
 }
 
-<h1>Index</h1>
+<h2>Settings</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-danger" asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover table-sm">
     <thead>
         <tr>
             <th>
@@ -22,20 +22,20 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                    <a class="btn btn-sm btn-warning" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

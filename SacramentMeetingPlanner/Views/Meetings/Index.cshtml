@@ -131,10 +131,10 @@
             <th>Name</th>
             <th>Subject</th>
             <th>Block</th>
-            <th>Order</th>
+            <th class="text-center">Order</th>
         </tr>
 
-        @foreach (var item in Model.Speakers)
+        @foreach (var item in Model.Speakers.OrderBy(s => s.Block).ThenBy(s => s.Order))
         {
             <tr>
                 <td>
@@ -146,7 +146,7 @@
                 <td>
                     @item.Block
                 </td>
-                <td>
+                <td class="text-center">
                     @item.Order
                 </td>
             </tr>

@@ -1,81 +1,84 @@
 ﻿@model SacramentMeetingPlanner.Models.Meeting
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Meeting";
 }
 
-<h1>Edit</h1>
+<h2>Edit Meeting</h2>
 
-<h4>Meeting</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditPost">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="MeetingDate" class="control-label"></label>
-                <input asp-for="MeetingDate" class="form-control" />
-                <span asp-validation-for="MeetingDate" class="text-danger"></span>
+<div class="container">
+    <form asp-action="EditPost">
+        <div class="row">
+            <div class="col-sm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
+                <div class="form-group">
+                    <label asp-for="MeetingDate" class="control-label"></label>
+                    <input asp-for="MeetingDate" class="form-control" />
+                    <span asp-validation-for="MeetingDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Invocation" class="control-label"></label>
+                    <input asp-for="Invocation" class="form-control" />
+                    <span asp-validation-for="Invocation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SacramentSong" class="control-label"></label>
+                    <input asp-for="SacramentSong" class="form-control" />
+                    <span asp-validation-for="SacramentSong" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClosingSong" class="control-label"></label>
+                    <input asp-for="ClosingSong" class="form-control" />
+                    <span asp-validation-for="ClosingSong" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Conducting" class="control-label"></label>
-                <input asp-for="Conducting" class="form-control" />
-                <span asp-validation-for="Conducting" class="text-danger"></span>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label asp-for="Conducting" class="control-label"></label>
+                    <input asp-for="Conducting" class="form-control" />
+                    <span asp-validation-for="Conducting" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OpeningSong" class="control-label"></label>
+                    <input asp-for="OpeningSong" class="form-control" />
+                    <span asp-validation-for="OpeningSong" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IntermediateSong" class="control-label"></label>
+                    <input asp-for="IntermediateSong" class="form-control" />
+                    <span asp-validation-for="IntermediateSong" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Benediction" class="control-label"></label>
+                    <input asp-for="Benediction" class="form-control" />
+                    <span asp-validation-for="Benediction" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Invocation" class="control-label"></label>
-                <input asp-for="Invocation" class="form-control" />
-                <span asp-validation-for="Invocation" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <input type="submit" value="Save" class="btn btn-danger" />
+                <a class="btn btn-primary" asp-action="Index">Back to List</a>
             </div>
-            <div class="form-group">
-                <label asp-for="OpeningSong" class="control-label"></label>
-                <input asp-for="OpeningSong" class="form-control" />
-                <span asp-validation-for="OpeningSong" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SacramentSong" class="control-label"></label>
-                <input asp-for="SacramentSong" class="form-control" />
-                <span asp-validation-for="SacramentSong" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IntermediateSong" class="control-label"></label>
-                <input asp-for="IntermediateSong" class="form-control" />
-                <span asp-validation-for="IntermediateSong" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClosingSong" class="control-label"></label>
-                <input asp-for="ClosingSong" class="form-control" />
-                <span asp-validation-for="ClosingSong" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Benediction" class="control-label"></label>
-                <input asp-for="Benediction" class="form-control" />
-                <span asp-validation-for="Benediction" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
 </div>
 
 @if (Model.Speakers != null)
 {
-    <h3>Speakers for the Selected Meeting</h3>
+    <hr />
+    <h3>Speakers</h3>
     <table class="table table-sm">
         <tr>
             <th>Name</th>
             <th>Subject</th>
             <th>Block</th>
-            <th>Order</th>
+            <th class="text-center">Order</th>
         </tr>
 
-        @foreach (var item in Model.Speakers)
+        @foreach (var item in Model.Speakers.OrderBy(s => s.Block).ThenBy(s => s.Order))
         {
             <tr>
                 <td>
@@ -87,7 +90,7 @@
                 <td>
                     @item.Block
                 </td>
-                <td>
+                <td class="text-center">
                     @item.Order
                 </td>
             </tr>
