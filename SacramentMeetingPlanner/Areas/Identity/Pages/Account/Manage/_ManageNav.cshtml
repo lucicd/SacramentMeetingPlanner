@@ -1,0 +1,10 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+    @if (User.IsInRole("Administrator"))
+    {
+        <li class="nav-item"><a class="nav-link @ManageNavPages.UsersNavClass(ViewContext)" asp-page="./Users">Users</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.AddUserNavClass(ViewContext)" asp-page="./AddUser">Add User</a></li>
+    }
+</ul>

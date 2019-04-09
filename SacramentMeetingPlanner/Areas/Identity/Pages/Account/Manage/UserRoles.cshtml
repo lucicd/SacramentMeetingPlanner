@@ -1,0 +1,56 @@
+﻿@page
+@model UserRolesModel
+@{
+    ViewData["Title"] = "User Roles";
+    ViewData["ActivePage"] = ManageNavPages.UserRoles;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <input type="hidden" asp-for="UserInput.Id" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserInput.Name"></label>
+                <input asp-for="UserInput.Name" class="form-control" />
+                <span asp-validation-for="UserInput.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInput.Email"></label>
+                <input asp-for="UserInput.Email" class="form-control" />
+                <span asp-validation-for="UserInput.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInput.Phone"></label>
+                <input asp-for="UserInput.Phone" class="form-control" />
+                <span asp-validation-for="UserInput.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInput.OldPassword"></label>
+                <input asp-for="UserInput.OldPassword" class="form-control" />
+                <span asp-validation-for="UserInput.OldPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInput.Password"></label>
+                <input asp-for="UserInput.Password" class="form-control" />
+                <span asp-validation-for="UserInput.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInput.ConfirmPassword"></label>
+                <input asp-for="UserInput.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="UserInput.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Roles"></label>
+                <select asp-for="Roles" asp-items="@Model.AllRoles" asp- class="form-control"></select>
+            </div>
+            <button id="update-profile-button" type="submit" class="btn btn-secondary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -11,7 +11,7 @@ using SacramentMeetingPlanner.Models;
 
 namespace SacramentMeetingPlanner.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class SettingsController : Controller
     {
         private readonly SacramentMeetingPlannerContext _context;
