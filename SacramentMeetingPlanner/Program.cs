@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SacramentMeetingPlanner.Data;
@@ -18,7 +19,9 @@ namespace SacramentMeetingPlanner
                 try
                 {
                     var context = services.GetRequiredService<SacramentMeetingPlannerContext>();
-                    DbInitializer.Initialize(context);
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                    DbInitializer.Initialize(context, roleManager, userManager);
                 }
                 catch (Exception ex)
                 {

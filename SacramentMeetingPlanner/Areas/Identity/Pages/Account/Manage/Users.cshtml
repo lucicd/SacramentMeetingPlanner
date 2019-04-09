@@ -1,0 +1,60 @@
+﻿@page
+@model UsersModel
+@{
+    ViewData["Title"] = "Users";
+    ViewData["ActivePage"] = ManageNavPages.Users;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Roles
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Input.Users)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Key.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Key.Email)
+                        </td>
+                        <td>
+                            <dl class="row">
+                                @foreach (var roleName in item.Value)
+                                {
+                                    <dd class="col-sm-12">
+                                        @Html.DisplayFor(modelItem => roleName)
+                                    </dd>
+                                }
+                            </dl>
+                        </td>
+                            <td class="text-center">
+                                <a class="btn btn-sm btn-secondary btn-block w-100" asp-page="./UserRoles" asp-route-id="@item.Key.Id">Edit</a>
+                                <a class="btn btn-sm btn-danger btn-block w-100" asp-page="./DeleteUser" asp-route-id="@item.Key.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                        </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
