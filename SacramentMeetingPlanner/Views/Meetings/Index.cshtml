@@ -10,7 +10,7 @@
     <a class="btn btn-danger" asp-action="Create">Create New</a>
 </p>
 
-<form asp-action="Index" method="get">
+<form asp-action="Index" method="get" class="hide">
     <div class="form-actions no-color">
         <p>
             Find: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
@@ -27,20 +27,20 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">Meeting&nbsp;Date</a>
             </th>
-            <th>
+            <th class="hide">
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">Conducting</a>
             </th>
-            <th>
+            <th class="hide">
                 Invocation
             </th>
-            <th>
+            <th class="hide">
                 Songs
             </th>
-            <th>
+            <th class="hide">
                 Benediction
             </th>
-            <th></th>
+            <th class="hide"></th>
         </tr>
     </thead>
     <tbody>
@@ -57,13 +57,13 @@
                         @Html.DisplayFor(modelItem => item.MeetingDate)
                     </a>
                 </td>
-                <td>
+                <td class="hide">
                     @Html.DisplayFor(modelItem => item.Conducting)
                 </td>
-                <td>
+                <td class="hide">
                     @Html.DisplayFor(modelItem => item.Invocation)
                 </td>
-                <td>
+                <td class="hide">
                     <dl class="row">
                         <dt class="col-sm-3">Opening:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(modelItem => item.OpeningSong)</dd>
@@ -78,10 +78,10 @@
                         <dd class="col-sm-9">@Html.DisplayFor(modelItem => item.ClosingSong)</dd>
                     </dl>
                 </td>
-                <td>
+                <td class="hide">
                     @Html.DisplayFor(modelItem => item.Benediction)
                 </td>
-                <td class="text-center">
+                <td class="text-center hide">
                     @{
                         var numSpeakers = item.Speakers.Count().ToString();
                     }
