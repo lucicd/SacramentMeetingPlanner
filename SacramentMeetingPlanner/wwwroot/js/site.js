@@ -5,4 +5,8 @@
 
 $(function () {
     $('a[href="/Identity/Account/Register"]').remove();
+
+    $('#speakerName').autocomplete({
+        source: '/api/speaker/search'
+    });
 });

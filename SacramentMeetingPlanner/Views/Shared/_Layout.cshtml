@@ -27,7 +27,11 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a  asp-controller="Home" asp-action="Index">
+                    <img class="navbar-brand" src="~/img/church.png" width="30" />
+                    <span class="text-light d-sm-block d-md-none">SACRAMENT MEETING PLANNER</span>
+                </a>
+                <button class="navbar-toggler navbar-toggler-right navbar-light" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -46,7 +50,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                  
+
                     </ul>
                 </div>
             </div>
@@ -61,7 +65,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - Sacrament Meeting Planner - <a class="text-light" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <span class="text-light">&copy; 2019 - Sacrament Meeting Planner - </span><a class="text-light" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
@@ -83,6 +87,7 @@
                 integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4=">
         </script>
     </environment>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
