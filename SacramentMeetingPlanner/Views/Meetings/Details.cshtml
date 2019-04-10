@@ -19,12 +19,15 @@
         <div class="col-sm-3">
             Timing: <span>@ViewData["Timing"].ToString()</span>
         </div>
+        <br />
     </div>
     <div class="row">
         <h1>@ViewData["Unit Name"] Scarament Meeting Agenda</h1>
     </div>
     <div class="row">
         <p><b>Welcome:</b> We welcome you to our sacrament service this morning</p>
+        <br />
+        <br />
         <ul>
             <li>@ViewData["Presiding"] presides over this meeting</li>
             <li>@Html.DisplayFor(model => model.Conducting) will be conducting this meeting</li>
@@ -46,7 +49,6 @@
         <hr />
     </div>
     <div class="row">
-        
             <p><b>Sacrament:</b> We will now prepare for the sacrament by singing hymn number: @Html.DisplayFor(model => model.SacramentSong)</p>
             <br />
             <p>Following the singing, the sacrament will be blessed and passed.</p>
