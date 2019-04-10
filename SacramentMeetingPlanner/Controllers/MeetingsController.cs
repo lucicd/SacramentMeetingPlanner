@@ -12,7 +12,7 @@ using SacramentMeetingPlanner.Models.MeetingViewModels;
 
 namespace SacramentMeetingPlanner.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Bishopric")]
     public class MeetingsController : Controller
     {
         private readonly SacramentMeetingPlannerContext _context;

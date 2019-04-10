@@ -1,6 +1,7 @@
 ﻿using SacramentMeetingPlanner.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace SacramentMeetingPlanner.Data
 {
@@ -21,6 +22,8 @@ namespace SacramentMeetingPlanner.Data
             modelBuilder.Entity<Meeting>().ToTable("Meeting");
             modelBuilder.Entity<Speaker>().ToTable("Speaker");
             modelBuilder.Entity<Setting>().ToTable("Setting");
+
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() });
         }
     }
 }

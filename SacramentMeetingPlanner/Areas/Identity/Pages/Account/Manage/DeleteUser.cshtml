@@ -1,0 +1,34 @@
+﻿@page
+@model DeleteUserModel
+@{
+    ViewData["Title"] = "Delete User";
+    ViewData["ActivePage"] = ManageNavPages.Users;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="adduser-form" method="post">
+            <input type="hidden" asp-for="Input.Id" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                @Html.DisplayFor(model => model.Input.Name)
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                @Html.DisplayFor(model => model.Input.Email)
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Phone"></label>
+                @Html.DisplayFor(model => model.Input.Phone)
+            </div>
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete User</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

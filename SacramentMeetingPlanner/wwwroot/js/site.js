@@ -2,3 +2,11 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+$(function () {
+    $('a[href="/Identity/Account/Register"]').remove();
+
+    $('#speakerName').autocomplete({
+        source: '/api/speaker/search'
+    });
+});

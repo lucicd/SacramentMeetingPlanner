@@ -1,4 +1,5 @@
-﻿using SacramentMeetingPlanner.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using SacramentMeetingPlanner.Data;
 using SacramentMeetingPlanner.Models;
 using System;
 using System.Linq;
@@ -7,15 +8,59 @@ namespace SacramentMeetingPlanner.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(SacramentMeetingPlannerContext context)
+        public static void Initialize(SacramentMeetingPlannerContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
+
             context.Database.EnsureCreated();
+
+            // Create default roles if not existing
+            if (roleManager.FindByNameAsync("Administrator").Result == null)
+            {
+                IdentityRole role = new IdentityRole
+                {
+                    Name = "Administrator"
+                };
+
+                roleManager.CreateAsync(role).Wait();
+            }
+            if (roleManager.FindByNameAsync("Bishopric").Result == null)
+            {
+                IdentityRole role = new IdentityRole
+                {
+                    Name = "Bishopric"
+                };
+
+                roleManager.CreateAsync(role).Wait();
+            }
+
+            // Create default user if not existing
+            // Add default user to default role if existing
+            if (userManager.FindByEmailAsync("admin@sacramentplanner.com").Result == null)
+            {
+                IdentityUser user = new IdentityUser
+                {
+                    UserName = "admin@sacramentplanner.com",
+                    Email = "admin@sacramentplanner.com"
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "5am33P1an!").Result;
+
+                if (result.Succeeded)
+                {
+                    if (!userManager.IsInRoleAsync(user, "Administrator").Result)
+                        userManager.AddToRoleAsync(user, "Administrator").Wait();
+
+                    if (!userManager.IsInRoleAsync(user, "Bishopric").Result)
+                        userManager.AddToRoleAsync(user, "Bishopric").Wait();
+                }
+            }
 
             if (context.Meetings.Any())
             {
                 return;   // DB has been seeded
             }
 
+            // Seed other data
             var meetings = new Meeting[]
             {
                 new Meeting {
