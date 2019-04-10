@@ -17,20 +17,17 @@
             @Html.DisplayFor(model => model.MeetingDate)
         </div>
         <div class="col-sm-3">
-            Start Time 11:00 AM
-        </div>
-        <div class="col-sm-3">
-            End Time 12:00 PM
+            Timing: <span>@ViewData["Timing"].ToString()</span>
         </div>
     </div>
     <div class="row">
-        <h1>{Ward Name} Scarament Meeting Agenda</h1>
+        <h1>@ViewData["Unit Name"] Scarament Meeting Agenda</h1>
     </div>
     <div class="row">
         <p><b>Welcome:</b> We welcome you to our sacrament service this morning</p>
         <ul>
-            <li>_____________________ presides over this meeting</li>
-            <li>@Html.DisplayNameFor(model => model.Conducting) will be conducting this meeting</li>
+            <li>@ViewData["Presiding"] presides over this meeting</li>
+            <li>@Html.DisplayFor(model => model.Conducting) will be conducting this meeting</li>
         </ul>
     </div>
     <div class="row">
@@ -43,45 +40,16 @@
     <div class="row">
         <p><b>Opening Hymn & Prayer:</b></p>
         <p>We will open our services by singing hymn number: @Html.DisplayNameFor(model => model.OpeningSong)</p>
-        <p>__________________ will be our <b>chorister</b> and</p>
-        <p>__________________ will be our pianist/organist. Following the singing,</p>
+        <p>@ViewData["Chorister"] will be our <b>chorister</b> and</p>
+        <p>@ViewData["Pianist"] will be our pianist/organist. Following the singing,</p>
         <p>@Html.DisplayFor(model => model.Invocation) has been invited to give the <b>invocation</b>. </p>
         <hr />
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <p>Stake Business:  We now have </p>
-            <hr />
-            <br />
-            <p>who is here to present some items from the stake.</p>
-            <p><b>Releases:</b> At this time the following individuals have been released from callings:</p>
-            <div>
-                <div class="col-4"></div><div class="col-4">has been released as</div><div class="col-4"></div>
-                <div class="col-4"></div><div class="col-4">has been released as</div><div class="col-4"></div>
-                <div class="col-4"></div><div class="col-4">has been released as</div><div class="col-4"></div>
-            </div>
-            <p>and we propose that {he/she/they} be given a vote of thanks for {his/her/their} service. Those who wish to join with us in expressing appreciation may manifest by the uplifted hand. [No dissenting vote is called for.]</p>
-            <p><b>Sustaining:</b> (If they are here) will the following please stand to be recognized, and remain standing while their names are presented.</p>
-            <div>
-                <div class="col-4"></div><div class="col-4">has been called as</div><div class="col-4"></div>
-                <div class="col-4"></div><div class="col-4">has been called as</div><div class="col-4"></div>
-                <div class="col-4"></div><div class="col-4">has been called as</div><div class="col-4"></div>
-            </div>
-            <p>... and we propose that {he/she/they} be sustained in {this/these}. Those in favor may manifest it by the uplifted hand. [Pause for vote.] Those opposed, if any, may manifest it.</p>
-            <p><b>Additional Business:</b></p>
-            <p>[Baby Blessings, Convert Confirmations, Advancements, Awards, etc.]</p>
-
-        </div>
-        <div class="col-md-6">
-            <p><b>New Members:</b> If they are here, will the following please stand to be recognized while their names are presented. </p>
-            <br />
-            <p>Those who can join with us in accept these new members in full fellowship into the ward may manifest by the uplifted hand.  </p>
-            <br />
+        
             <p><b>Sacrament:</b> We will now prepare for the sacrament by singing hymn number: @Html.DisplayFor(model => model.SacramentSong)</p>
             <br />
             <p>Following the singing, the sacrament will be blessed and passed.</p>
-            <br />
-            <p><i>[Hymn & Sacrament]</i></p>
             <br />
             <p>We would like to thank you for your reverence as the sacrament was blessed and passed.</p>
             <br />
@@ -121,7 +89,6 @@
             <p>@Html.DisplayFor(model => model.Benediction)</p>
             <p>has been invited to give the <b>benediction</b></p>
         </div>
-    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |

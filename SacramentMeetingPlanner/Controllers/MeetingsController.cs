@@ -99,6 +99,17 @@ namespace SacramentMeetingPlanner.Controllers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
 
+            var unitName = await _context.Settings.FirstOrDefaultAsync(m => m.Name == "Unit Name");
+            ViewData["Unit Name"] = unitName.Value;
+            var presiding = await _context.Settings.FirstOrDefaultAsync(m => m.Name == "Presiding");
+            ViewData["Presiding"] = presiding.Value;
+            var timing = await _context.Settings.FirstOrDefaultAsync(m => m.Name == "Timing");
+            ViewData["Timing"] = timing.Value;
+            var chorister = await _context.Settings.FirstOrDefaultAsync(m => m.Name == "Chorister");
+            ViewData["Chorister"] = chorister.Value;
+            var pianist = await _context.Settings.FirstOrDefaultAsync(m => m.Name == "Pianist");
+            ViewData["Pianist"] = pianist.Value;
+
             if (meeting == null)
             {
                 return NotFound();
